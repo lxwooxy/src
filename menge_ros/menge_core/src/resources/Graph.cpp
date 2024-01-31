@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill. 
+Copyright ï¿½ and trademark ï¿½ 2012-14 University of North Carolina at Chapel Hill. 
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation 
@@ -136,7 +136,7 @@ namespace Menge {
 				logger << Logger::ERR_MSG << "Error parsing roadmap: format error for edge " << ( e + 1 ) << ".\n";
 				delete [] vertNbr;
 				graph->destroy();
-				return false;
+				return 0;
 			}
 			float distance = graph->_vertices[ from ].getDistance( graph->_vertices[ to ] );
 			edge.setDistance(distance); 
