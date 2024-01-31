@@ -1,0 +1,36 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/ericguan/catkin_ws1/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/agt_dummy/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/agt_helbing/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/agt_johansson/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/agt_karamouzas/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/agt_zanlungo/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/aircraft/include/**",
+        "/home/ericguan/catkin_ws/src/beginner_tutorials/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/formations/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/fundamental_diagram/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/menge_core/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/menge_sim/include/**",
+        "/home/ericguan/catkin_ws1/src/semaforr/include/**",
+        "/home/ericguan/catkin_ws1/src/menge_ros/terrain/include/**",
+        "/home/ericguan/catkin_ws1/src/why/include/**",
+        "/home/ericguan/catkin_ws1/src/why_plan/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-arm64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
