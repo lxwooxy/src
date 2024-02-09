@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill. 
+Copyright ï¿½ and trademark ï¿½ 2012-14 University of North Carolina at Chapel Hill. 
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation 
@@ -245,7 +245,7 @@ int main(int argc, char* argv[]) {
 #endif	// _WIN32
 	logger.line();
 	logger << Logger::INFO_MSG << "Plugin path: " << pluginPath;
-	pluginPath = "/home/rajkochhar/catkin_ws1/devel/lib";
+	pluginPath = "/home/ericguan/catkin_ws1/devel/lib";
 	plugins.loadPlugins( pluginPath );
 	if ( simDB.modelCount() == 0 ) {
 		logger << Logger::INFO_MSG << "There were no pedestrian models in the plugins folder\n";

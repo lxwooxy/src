@@ -8,7 +8,7 @@ import subprocess
 import os
 
 def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore, advisors, params):
-    project_home = os.path.expanduser("~/catkin_ws1/semaforr")
+    project_home = os.path.expanduser("~/catkin_ws1/src")
     menge_path = project_home+"/examples/core"
     semaforr_path = project_home+"/semaforr"
 
@@ -36,6 +36,7 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
 
     # start menge simulator
     menge_sim_process = subprocess.Popen(['rosrun','menge_sim','menge_sim','-p',map_xml])
+    print(map_xml)
     print("waiting,,")
     time.sleep(30)
 
@@ -58,7 +59,15 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
 
     # start semaforr
     semaforr_process = subprocess.Popen(['rosrun','semaforr','semaforr', semaforr_path, target_set, map_config, map_dimensions, advisors, params])
+    '''
+    print(semaforr_path)
+    print(target_set)
+    print(map_config)
+    print(map_dimensions)
+    print(advisors)
+    print(params)
     print("waiting,,")
+    '''
     time.sleep(2)
     
     # start why
