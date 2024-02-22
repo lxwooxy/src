@@ -35,10 +35,10 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     time.sleep(5)
 
     # start menge simulator
-    menge_sim_process = subprocess.Popen(['rosrun','menge_sim','menge_sim','-p',map_xml])
-    print(map_xml)
-    print("waiting,,")
-    time.sleep(30)
+    # menge_sim_process = subprocess.Popen(['rosrun','menge_sim','menge_sim','-p',map_xml])
+    # print(map_xml)
+    # print("waiting,,")
+    # time.sleep(30)
 
     # start crowd model
     #crowd_process = subprocess.Popen(['rosrun','crowd/crowd_learner','learn.py',density, flow, risk, cusum, discount, explore])
@@ -85,8 +85,8 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
         print("Semaforr process still running ...")
         if rviz_process.poll() is not None:
             rviz_process = subprocess.Popen(['rosrun','rviz','rviz'])
-        if menge_sim_process.poll() is not None or str(subprocess.check_output(["ps -A | grep 'menge' | wc -l"],shell=True))[0] != "1":
-            break
+        #if menge_sim_process.poll() is not None or str(subprocess.check_output(["ps -A | grep 'menge' | wc -l"],shell=True))[0] != "1":
+        #    break
         time.sleep(1)
     try:
         semaforr_process.terminate()
@@ -98,6 +98,7 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     print("Semaforr process has ended ...")
     print("Terminating the simulator")
 
+    '''
     try:
         menge_sim_process.terminate()
         while menge_sim_process.poll() is None:
@@ -106,6 +107,7 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     except:
         print("Menge already terminated")
     print("Menge terminated!")
+    '''
 
     rviz_process.terminate()
     
