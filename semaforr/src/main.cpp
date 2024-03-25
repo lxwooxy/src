@@ -24,6 +24,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseArray.h>
 #include <sensor_msgs/LaserScan.h>
+#include <nav_msgs/Odometry.h>
 #include <tf/transform_datatypes.h>
 #include <semaforr/CrowdModel.h>
 #include <python2.7/Python.h>
@@ -68,7 +69,7 @@ public:
 		//set up the publisher for the cmd_vel topic
 		cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 		sub_pose_ = nh_.subscribe("pose", 1000, &RobotDriver::updatePose, this);
-		sub_laser_ = nh_.subscribe("base_scan", 1000, &RobotDriver::updateLaserScan, this);
+		sub_laser_ = nh_.subscribe("scan", 1000, &RobotDriver::updateLaserScan, this);
 		sub_crowd_model_ = nh_.subscribe("crowd_model", 1000, &RobotDriver::updateCrowdModel, this);
 		sub_crowd_pose_ = nh_.subscribe("crowd_pose", 1000, &RobotDriver::updateCrowdPose, this);
 		sub_crowd_pose_all_ = nh_.subscribe("crowd_pose_all", 1000, &RobotDriver::updateCrowdPoseAll, this);
@@ -108,10 +109,10 @@ public:
 	}
 
 	// Callback function for pose message
-	void updatePose(const geometry_msgs::PoseStamped & pose){
+	void updatePose(const nav_msgs::Odometry & pose){
 		//ROS_DEBUG("Inside callback for position message");
-		double x = pose.pose.position.x;
-		double y = pose.pose.position.y;
+		double x = pose.pose.pose.position.x;
+		double y = pose.pose.pose.position.y;
 		tf::Quaternion q(pose.pose.orientation.x,pose.pose.orientation.y,pose.pose.orientation.z,pose.pose.orientation.w);
 		tf::Matrix3x3 m(q);
 		double roll, pitch, yaw;
