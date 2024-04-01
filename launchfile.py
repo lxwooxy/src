@@ -8,7 +8,7 @@ import subprocess
 import os
 
 def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore, advisors, params):
-    project_home = os.path.expanduser("~/catkin_ws1/src")
+    project_home = os.path.expanduser("~/catkin_ws_semaforr/src")
     menge_path = project_home+"/examples/core"
     semaforr_path = project_home+"/semaforr"
 
@@ -39,6 +39,10 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     # print(map_xml)
     # print("waiting,,")
     # time.sleep(30)
+    
+    # roslaunch turtlebot_stage turtlebot_in_stage.launch 
+    stage_sim_process = subprocess.Popen(['roslaunch','turtlebot_stage','turtlebot_in_stage.launch'])
+    time.sleep(15)
 
     # start crowd model
     #crowd_process = subprocess.Popen(['rosrun','crowd/crowd_learner','learn.py',density, flow, risk, cusum, discount, explore])
@@ -59,15 +63,18 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
 
     # start semaforr
     semaforr_process = subprocess.Popen(['rosrun','semaforr','semaforr', semaforr_path, target_set, map_config, map_dimensions, advisors, params])
+    
     '''
-    print(semaforr_path)
-    print(target_set)
-    print(map_config)
-    print(map_dimensions)
-    print(advisors)
-    print(params)
+    print(semaforr_path)  /home/ericguan04/catkin_ws_semaforr/src/semaforr
+    print(target_set)     /home/ericguan04/catkin_ws_semaforr/src/examples/core/stage_tutorial/target.conf
+    print(map_config)     /home/ericguan04/catkin_ws_semaforr/src/examples/core/stage_tutorial/stage_tutorialS.xml
+    print(map_dimensions) /home/ericguan04/catkin_ws_semaforr/src/examples/core/stage_tutorial/dimensions.conf
+    print(advisors)       /config/advisors.conf
+    print(params)         /config/params.conf
+    '''
+
     print("waiting,,")
-    '''
+    
     time.sleep(2)
     
     # start why
@@ -78,13 +85,13 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     # why_plan_process = subprocess.Popen(['rosrun','why_plan','why_plan'])
     # print "waiting,,"
    
-    rviz_process = subprocess.Popen(['rosrun','rviz','rviz'])
+    # rviz_process = subprocess.Popen(['rosrun','rviz','rviz'])
 
     # Wait till semaforr completes the process
     while semaforr_process.poll() is None:
         print("Semaforr process still running ...")
-        if rviz_process.poll() is not None:
-            rviz_process = subprocess.Popen(['rosrun','rviz','rviz'])
+        #if rviz_process.poll() is not None:
+        #    rviz_process = subprocess.Popen(['rosrun','rviz','rviz'])
         #if menge_sim_process.poll() is not None or str(subprocess.check_output(["ps -A | grep 'menge' | wc -l"],shell=True))[0] != "1":
         #    break
         time.sleep(1)
@@ -109,7 +116,7 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     print("Menge terminated!")
     '''
 
-    rviz_process.terminate()
+    # rviz_process.terminate()
     
     # print "Terminating crowd model"
     #crowd_process.terminate()
@@ -142,7 +149,7 @@ explore = "off"
 num_runs = 1
 advisors = "/config/advisors.conf"
 params = "/config/params.conf"
-map_name = "gradcenter-5"
+map_name = "stage_tutorial"
 for i in range(0,num_runs):
     for j in range(1,6):
         why_explanations_name = map_name + "_" + str(j) + "_" + str(i) + "_why_explanations.txt"
@@ -150,5 +157,5 @@ for i in range(0,num_runs):
         why_log_name = map_name + "_" + str(j) + "_" + str(i) + "_why_log.txt"
         whyplan_log_name = map_name + "_" + str(j) + "_" + str(i) + "_why_plan_log.txt"
         log_name = map_name + "log_" + str(j) + "_" + str(i) + ".txt"
-        target_file_name = "target40test-" + str(j) + ".conf"
+        target_file_name = "target.conf"
         experiment(map_name, log_name, density, flow, risk, cusum, discount, explore, advisors, params)

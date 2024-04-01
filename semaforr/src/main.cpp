@@ -67,8 +67,8 @@ public:
 	{
 		nh_ = nh;
 		//set up the publisher for the cmd_vel topic
-		cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-		sub_pose_ = nh_.subscribe("pose", 1000, &RobotDriver::updatePose, this);
+		cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/navi", 1);
+		sub_pose_ = nh_.subscribe("base_pose_ground_truth", 1000, &RobotDriver::updatePose, this);
 		sub_laser_ = nh_.subscribe("scan", 1000, &RobotDriver::updateLaserScan, this);
 		sub_crowd_model_ = nh_.subscribe("crowd_model", 1000, &RobotDriver::updateCrowdModel, this);
 		sub_crowd_pose_ = nh_.subscribe("crowd_pose", 1000, &RobotDriver::updateCrowdPose, this);
@@ -113,7 +113,7 @@ public:
 		//ROS_DEBUG("Inside callback for position message");
 		double x = pose.pose.pose.position.x;
 		double y = pose.pose.pose.position.y;
-		tf::Quaternion q(pose.pose.orientation.x,pose.pose.orientation.y,pose.pose.orientation.z,pose.pose.orientation.w);
+		tf::Quaternion q(pose.pose.pose.orientation.x,pose.pose.pose.orientation.y,pose.pose.pose.orientation.z,pose.pose.pose.orientation.w);
 		tf::Matrix3x3 m(q);
 		double roll, pitch, yaw;
 		m.getRPY(roll, pitch, yaw);
