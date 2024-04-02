@@ -40,9 +40,9 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     # print("waiting,,")
     # time.sleep(30)
     
-    # roslaunch turtlebot_stage turtlebot_in_stage.launch 
+    # start stage simulator: roslaunch turtlebot_stage turtlebot_in_stage.launch 
     stage_sim_process = subprocess.Popen(['roslaunch','turtlebot_stage','turtlebot_in_stage.launch'])
-    time.sleep(15)
+    time.sleep(20)
 
     # start crowd model
     #crowd_process = subprocess.Popen(['rosrun','crowd/crowd_learner','learn.py',density, flow, risk, cusum, discount, explore])
@@ -65,6 +65,7 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     semaforr_process = subprocess.Popen(['rosrun','semaforr','semaforr', semaforr_path, target_set, map_config, map_dimensions, advisors, params])
     
     '''
+    # Debug Information
     print(semaforr_path)  /home/ericguan04/catkin_ws_semaforr/src/semaforr
     print(target_set)     /home/ericguan04/catkin_ws_semaforr/src/examples/core/stage_tutorial/target.conf
     print(map_config)     /home/ericguan04/catkin_ws_semaforr/src/examples/core/stage_tutorial/stage_tutorialS.xml
@@ -77,15 +78,17 @@ def experiment(map_name, log_name, density, flow, risk, cusum, discount, explore
     
     time.sleep(2)
     
+    '''
     # start why
-    # why_process = subprocess.Popen(['rosrun','why','why'])
-    # print "waiting,,"
+    why_process = subprocess.Popen(['rosrun','why','why'])
+    print "waiting,,"
 
     # start why_plan
-    # why_plan_process = subprocess.Popen(['rosrun','why_plan','why_plan'])
-    # print "waiting,,"
+    why_plan_process = subprocess.Popen(['rosrun','why_plan','why_plan'])
+    print "waiting,,"
    
-    # rviz_process = subprocess.Popen(['rosrun','rviz','rviz'])
+    rviz_process = subprocess.Popen(['rosrun','rviz','rviz'])
+    '''
 
     # Wait till semaforr completes the process
     while semaforr_process.poll() is None:

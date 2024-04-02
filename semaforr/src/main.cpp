@@ -67,6 +67,11 @@ public:
 	{
 		nh_ = nh;
 		//set up the publisher for the cmd_vel topic
+
+		//stage ros uses:
+		//"cmd_vel_mux/input/navi" to publish cmd_vel data
+		//"base_pose_ground_truth" to receive pose data
+		//"scan" to receive laser sensor data
 		cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/navi", 1);
 		sub_pose_ = nh_.subscribe("base_pose_ground_truth", 1000, &RobotDriver::updatePose, this);
 		sub_laser_ = nh_.subscribe("scan", 1000, &RobotDriver::updateLaserScan, this);
@@ -109,6 +114,7 @@ public:
 	}
 
 	// Callback function for pose message
+	// changed to "nav_msgs::Odometry & pose" to communicate to stage
 	void updatePose(const nav_msgs::Odometry & pose){
 		//ROS_DEBUG("Inside callback for position message");
 		double x = pose.pose.pose.position.x;
