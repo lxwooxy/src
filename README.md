@@ -21,3 +21,8 @@ Encountered a problem with missing include
 Issue with Python 2.7 not found
 * sudo apt-get install python-dev – this is for python 2.7
 * sudo apt-get install python3
+
+For OpenCV
+* sudo apt-get install ros-<ros-version>-cv-bridge ros-<ros-version>-image-transport
+* sudo apt-get install libopencv-dev
+

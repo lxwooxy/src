@@ -5,7 +5,9 @@
  *
  * \version SEMAFORR ROS 1.0
  *
- *
+ * Edited by Georgina Woo
+ * Last updated: Sep 16 2024
+ * Modifications: Adding camera node to the robot driver
  */
 
 #include <iostream>
@@ -29,8 +31,13 @@
 #include <semaforr/CrowdModel.h>
 #include <python2.7/Python.h>
 
-using namespace std;
+// For camera integration
+#include <sensor_msgs/Image.h>
+#include <cv_bridge/cv_bridge.h>
+#include <opencv2/opencv.hpp>
 
+
+using namespace std;
 // Main interface between SemaFORR and ROS, all ROS related information should be in RobotDriver
 class RobotDriver
 {
@@ -45,6 +52,9 @@ private:
 	ros::Subscriber sub_crowd_model_;
 	ros::Subscriber sub_crowd_pose_;
 	ros::Subscriber sub_crowd_pose_all_;
+
+	ros::Subscriber sub_camera_; // Camera Subscriber
+
 	// Current position and previous stopping position of the robot
 	Position current, previous;
 	// Current and previous laser scan
@@ -61,6 +71,7 @@ private:
 	bool add_noise;
 	// Visualization 
 	Visualizer *viz_;
+
 public:
 	//! ROS node initialization
 	RobotDriver(ros::NodeHandle &nh, Controller *con)
@@ -78,6 +89,10 @@ public:
 		sub_crowd_model_ = nh_.subscribe("crowd_model", 1000, &RobotDriver::updateCrowdModel, this);
 		sub_crowd_pose_ = nh_.subscribe("crowd_pose", 1000, &RobotDriver::updateCrowdPose, this);
 		sub_crowd_pose_all_ = nh_.subscribe("crowd_pose_all", 1000, &RobotDriver::updateCrowdPoseAll, this);
+		
+		// Subscribing to camera input, assuming the camera is publishing to /camera/rgb/image_raw
+		sub_camera_ = nh_.subscribe("/camera/rgb/image_raw", 1000, &RobotDriver::updateCamera, this);
+
 		//declare and create a controller with task, action and advisor configuration
 		controller = con;
 		init_pos_received = false;
@@ -87,6 +102,25 @@ public:
 		previous.setX(0);previous.setY(0);previous.setTheta(0);
 		viz_ = new Visualizer(&nh_, con);
 	}
+
+	// Callback function for camera message
+	void updateCamera(const sensor_msgs::ImageConstPtr& msg) {
+    try {
+        // Convert the ROS image message to a format OpenCV can handle
+        cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+
+        // Access the image via cv_ptr->image (this is an OpenCV Mat)
+        cv::Mat frame = cv_ptr->image;
+
+        // Process the image (for example, display it)
+        cv::imshow("Camera View", frame);
+        cv::waitKey(3); // Display the image for 3ms
+    }
+    catch (cv_bridge::Exception& e) {
+        ROS_ERROR("Could not convert from '%s' to 'bgr8'.", msg->encoding.c_str());
+    }
+}
+
 
 	// Callback function for crowd pose message
 	void updateCrowdPose(const geometry_msgs::PoseArray &crowd_pose){
